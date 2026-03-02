@@ -1,0 +1,368 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * Representa la torre donde se apilan las tazas y sus tapas.
+ * 
+ * Simula el comportamiento descrito en el Problem J – Stacking Cups,
+ * permitiendo gestionar la adición, eliminación y reorganización
+ * de los elementos apilados.
+ * 
+ * La torre:
+ * - Controla la altura máxima permitida.
+ * - Administra tazas y tapas.
+ * - Permite reorganización de elementos.
+ * - Puede ejecutarse en modo visible o invisible.
+ * 
+ * @author Nicolás Prieto
+ * @author Sebastian Peña
+ * @version 2
+ */
+public class Tower {
+    private int width;
+    private int maxHeight;
+    private ArrayList<Cup> cups;
+    private ArrayList<Lid> lids;
+    private ArrayList<Object> towerItems;
+    private boolean isVisible;
+    private Rectangle axisX;
+    private ArrayList<Rectangle> axisY;
+    
+    /**
+     * Constructor de la torre.
+     * Inicializa dimensiones y estructuras de almacenamiento.
+     * 
+     * @param width ancho de la torre
+     * @param maxHeight altura máxima permitida
+     */
+    public Tower(int width, int maxHeight) {
+        this.width = width;
+        this.maxHeight = maxHeight;
+        this.cups = new ArrayList<Cup>();
+        this.lids = new ArrayList<Lid>();
+        this.towerItems = new ArrayList<Object>();
+        this.isVisible = false;
+        this.axisY = new ArrayList<Rectangle>();
+        createAxis();
+    }
+    
+    public Tower(int cupsCount) {
+        this(9, 1000);
+        for (int i = cupsCount; i >= 1; i--) {
+            pushCup(i, (2 * i - 1) * 10);
+        }
+    }
+    
+    private void createAxis() {
+        axisX = new Rectangle();
+        axisX.changeColor("black");
+        axisX.changeSize(2, 300);
+        axisX.moveHorizontal(-60);
+        axisX.moveVertical(265);
+        
+        for (int i = 0; i <= 9; i++) {
+            Rectangle mark = new Rectangle();
+            mark.changeColor("black");
+            mark.changeSize(2, 15);
+            mark.moveHorizontal(-60);
+            mark.moveVertical(-15 + (270 - i * 30));
+            axisY.add(mark);
+        }
+    }
+    
+    public void pushCup(int number, int width) {
+        if (cups.size() < maxHeight) {
+            Cup cup = new Cup(number);
+            String color;
+            if (number == 1) {
+                color = "red";
+            } else if (number == 2) {
+                color = "green";
+            } else if (number == 3) {
+                color = "yellow";
+            
+            } else {
+                String[] colors = {"blue", "magenta"};
+                color = colors[number % 2];
+            }
+            cup.setColor(color);
+            cup.setSize(30, width);
+            cups.add(cup);
+            towerItems.add(cup);
+            if (isVisible) {
+                updatePositions();
+            }
+        }
+    }
+    
+    public void pushLid(int i) {
+        Lid lid = new Lid(i);
+        lid.setColor("black");
+        lids.add(lid);
+        towerItems.add(lid);
+    }
+    
+    public void popCup() {
+        if (!cups.isEmpty()) {
+            Cup top = cups.get(cups.size() - 1);
+            if (top.hasLid()) {
+                lids.add(top.removeLid());
+            }
+            top.makeInvisible();
+            cups.remove(cups.size() - 1);
+            updatePositions();
+        }
+    }
+    
+    public void removeCup(int number) {
+        for (int i = 0; i < cups.size(); i++) {
+            if (cups.get(i).getNumber() == number) {
+                Cup cup = cups.get(i);
+                if (cup.hasLid()) {
+                    lids.add(cup.removeLid());
+                }
+                cup.makeInvisible();
+                cups.remove(i);
+                break;
+            }
+        }
+    }
+    
+    public void pushLid() {
+        if (!cups.isEmpty()) {
+            Cup top = cups.get(cups.size() - 1);
+            if (!top.hasLid()) {
+                Lid lid = new Lid(top.getNumber());
+                lid.setColor("black");
+                top.putLid(lid);
+                updatePositions();
+                if (isVisible) {
+                    lid.makeVisible();
+                }
+            }
+        }
+    }
+    
+    public void swap(String[] o1, String[] o2) {
+        int index1 = findIndex(o1);
+        int index2 = findIndex(o2);
+        if (index1 == -1 || index2 == -1) return;
+        Collections.swap(towerItems, index1, index2);
+    }
+    
+    private int findIndex(String[] id) {
+        String type = id[0];
+        int number = Integer.parseInt(id[1]);
+        for (int i = 0; i < towerItems.size(); i++) {
+            Object obj = towerItems.get(i);
+            if (type.equals("cup") && obj instanceof Cup) {
+                if (((Cup)obj).getNumber() == number) return i;
+            }
+            if (type.equals("lid") && obj instanceof Lid) {
+                if (((Lid)obj).getCupNumber() == number) return i;
+            }
+        }
+        return -1;
+    }
+    
+    public void cover() {
+        ArrayList<Lid> lidsToRemove = new ArrayList<>();
+        for (int i = 0; i < towerItems.size(); i++) {
+            Object obj = towerItems.get(i);
+            if (obj instanceof Cup) {
+                Cup cup = (Cup) obj;
+                if (!cup.hasLid()) {
+                    Lid lid = findLooseLid(cup.getNumber());
+                    if (lid != null) {
+                        lid.setColor("black");
+                        cup.putLid(lid);
+                        lids.remove(lid);
+                        lidsToRemove.add(lid);
+                    }
+                }
+            }
+        }
+        for (Lid lid : lidsToRemove) {
+            towerItems.remove(lid);
+        }
+        if (isVisible) {
+            for (Cup cup : cups) {
+                if (cup.hasLid()) {
+                    Lid lid = cup.getLid();
+                    int cupIndex = cups.indexOf(cup);
+                    int cupX = 45 + (width * 10 - cup.getWidth()) / 2;
+                    int cupY = 270 - (cupIndex * 30);
+                    lid.setPosition(cupX, cupY - 32);
+                    lid.setSize(cup.getWidth());
+                    lid.makeVisible();
+                }
+            }
+        }
+    }
+    
+    private Lid findLooseLid(int number) {
+        for (Lid lid : lids) {
+            if (lid.getCupNumber() == number) return lid;
+        }
+        return null;
+    }
+    
+    public int height() {
+        if (towerItems.isEmpty()) return 0;
+        Object first = towerItems.get(0);
+        if (first instanceof Cup) {
+            int i = ((Cup)first).getNumber();
+            return 2 * i - 1;
+        }
+        return 1;
+    }
+    
+    public int[] lidedCups() {
+        ArrayList<Integer> temp = new ArrayList<>();
+        for (Cup cup : cups) {
+            if (cup.hasLid()) temp.add(cup.getNumber());
+        }
+        int[] result = new int[temp.size()];
+        for (int i = 0; i < temp.size(); i++) {
+            result[i] = temp.get(i);
+        }
+        return result;
+    }
+    
+    public String[][] swapToReduce() {
+        if (towerItems.isEmpty()) return null;
+        
+        Object first = towerItems.get(0);
+        int currentHeight = height();
+        
+        // Si el primero es una lid, buscar una cup más pequeña para poner primero
+        if (first instanceof Lid) {
+            for (int i = 1; i < towerItems.size(); i++) {
+                Object obj = towerItems.get(i);
+                if (obj instanceof Cup) {
+                    return new String[][]{
+                        getIdentifier(0),
+                        getIdentifier(i)
+                    };
+                }
+            }
+        }
+        
+        // Si el primero es una cup, buscar una cup más pequeña o una lid
+        if (first instanceof Cup) {
+            int firstNum = ((Cup)first).getNumber();
+            
+            // Buscar una cup más pequeña
+            for (int i = 1; i < towerItems.size(); i++) {
+                Object obj = towerItems.get(i);
+                if (obj instanceof Cup) {
+                    int n = ((Cup)obj).getNumber();
+                    if (n < firstNum) {
+                        return new String[][]{
+                            getIdentifier(0),
+                            getIdentifier(i)
+                        };
+                    }
+                }
+            }
+            
+            // Si no hay cup más pequeña, buscar una lid para reducir altura
+            for (int i = 1; i < towerItems.size(); i++) {
+                Object obj = towerItems.get(i);
+                if (obj instanceof Lid) {
+                    return new String[][]{
+                        getIdentifier(0),
+                        getIdentifier(i)
+                    };
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    private String[] getIdentifier(int index) {
+        Object obj = towerItems.get(index);
+        if (obj instanceof Cup) {
+            return new String[]{"cup", "" + ((Cup)obj).getNumber()};
+        }
+        return new String[]{"lid", "" + ((Lid)obj).getCupNumber()};
+    }
+    
+    public void popLid() {
+        if (!cups.isEmpty()) {
+            Cup top = cups.get(cups.size() - 1);
+            if (top.hasLid()) {
+                Lid lid = top.removeLid();
+                lid.makeInvisible();
+                lids.add(lid);
+            }
+        }
+    }
+    
+    public void removeLid(int cupNumber) {
+        for (int i = 0; i < lids.size(); i++) {
+            if (lids.get(i).getCupNumber() == cupNumber) {
+                lids.remove(i);
+                break;
+            }
+        }
+    }
+    
+    public String[][] stackingItems() {
+        String[][] result = new String[towerItems.size()][2];
+        for (int i = 0; i < towerItems.size(); i++) {
+            result[i] = getIdentifier(i);
+        }
+        return result;
+    }
+    
+    public void makeVisible() {
+        isVisible = true;
+        axisX.makeVisible();
+        for (Rectangle mark : axisY) {
+            mark.makeVisible();
+        }
+        for (Cup cup : cups) {
+            cup.makeVisible();
+            if (cup.hasLid()) {
+                cup.getLid().makeVisible();
+            }
+        }
+        updatePositions();
+    }
+    
+    public void makeInvisible() {
+        isVisible = false;
+        axisX.makeInvisible();
+        for (Rectangle mark : axisY) {
+            mark.makeInvisible();
+        }
+        for (Cup cup : cups) {
+            cup.makeInvisible();
+            if (cup.hasLid()) {
+                cup.getLid().makeInvisible();
+            }
+        }
+    }
+    
+    private void updatePositions() {
+        for (int i = 0; i < cups.size(); i++) {
+            Cup cup = cups.get(i);
+            int cupX = 45 + (width * 10 - cup.getWidth()) / 2;
+            int cupY = 270 - (i * 30);
+            cup.setPosition(cupX, cupY);
+            if (isVisible) {
+                cup.makeVisible();
+            }
+            if (cup.hasLid()) {
+                Lid lid = cup.getLid();
+                lid.setPosition(cupX, cupY - 32);
+                lid.setSize(cup.getWidth());
+                if (isVisible) {
+                    lid.makeVisible();
+                }
+            }
+        }
+    }
+}
