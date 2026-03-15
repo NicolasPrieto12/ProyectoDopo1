@@ -317,6 +317,47 @@ public class Tower {
         return result;
     }
     
+    public void orderTower() {
+        ArrayList<Cup> sortedCups = new ArrayList<>(cups);
+        sortedCups.sort((c1, c2) -> Integer.compare(c2.getNumber(), c1.getNumber()));
+        towerItems.clear();
+        cups.clear();
+        for (Cup cup : sortedCups) {
+            cups.add(cup);
+            towerItems.add(cup);
+        }
+        for (Lid lid : lids) {
+            towerItems.add(lid);
+        }
+        if (isVisible) {
+            updatePositions();
+        }
+    }
+    
+    public void reverseTower() {
+        Collections.reverse(towerItems);
+        if (isVisible) {
+            updatePositions();
+        }
+    }
+    
+    public void exit() {
+        makeInvisible();
+        cups.clear();
+        lids.clear();
+        towerItems.clear();
+    }
+    
+    public boolean ok() {
+        if (cups.isEmpty()) return true;
+        for (int i = 0; i < cups.size() - 1; i++) {
+            if (cups.get(i).getNumber() < cups.get(i + 1).getNumber()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     public void makeVisible() {
         isVisible = true;
         axisX.makeVisible();
