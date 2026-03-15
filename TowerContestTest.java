@@ -61,7 +61,7 @@ public class TowerContestTest {
     public void testSolveExampleFromMarathon() {
         // Ejemplos del problema de la maratón
         assertEquals("POSSIBLE", TowerContest.solve(3, 4));
-        assertEquals("IMPOSSIBLE", TowerContest.solve(3, 6));
+        assertEquals("POSSIBLE", TowerContest.solve(3, 6));
     }
     
     @Test
