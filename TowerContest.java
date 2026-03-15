@@ -71,19 +71,15 @@ public class TowerContest {
         // Escalar el ancho para que quepan en el canvas (max 250px)
         int maxWidth = Math.min(250, cupsNeeded * 20);
         
-        if (h % 2 == 1) {
-            for (int i = cupsNeeded; i >= 1; i--) {
-                int width = (int)((2.0 * i - 1) / (2.0 * cupsNeeded - 1) * maxWidth);
-                if (width < 10) width = 10;
-                currentTower.pushCup(i, width);
-            }
-        } else {
-            for (int i = cupsNeeded; i >= 1; i--) {
-                int width = (int)((2.0 * i - 1) / (2.0 * cupsNeeded - 1) * maxWidth);
-                if (width < 10) width = 10;
-                currentTower.pushCup(i, width);
-            }
-            currentTower.pushLid();
+        for (int i = cupsNeeded; i >= 1; i--) {
+            int width = (cupsNeeded == 1) ? maxWidth :
+                (int)((2.0 * i - 1) / (2.0 * cupsNeeded - 1) * maxWidth);
+            if (width < 10) width = 10;
+            currentTower.pushCup(i, width);
+        }
+        
+        if (h % 2 == 0) {
+            currentTower.pushLidOnTop();
         }
         
         currentTower.makeVisible();

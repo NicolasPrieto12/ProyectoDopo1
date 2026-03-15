@@ -129,6 +129,20 @@ public class Tower {
         }
     }
     
+    public void pushLidOnTop() {
+        if (cups.isEmpty()) return;
+        Cup top = cups.get(cups.size() - 1);
+        if (!top.hasLid()) {
+            Lid lid = new Lid(top.getNumber());
+            lid.setColor("black");
+            top.putLid(lid);
+        }
+        updatePositions();
+        if (isVisible && top.hasLid()) {
+            top.getLid().makeVisible();
+        }
+    }
+    
     public void swap(String[] o1, String[] o2) {
         int index1 = findIndex(o1);
         int index2 = findIndex(o2);
@@ -395,44 +409,36 @@ public class Tower {
     }
     
     private void updatePositions() {
-        // Posicionar basándose en towerItems (orden real después de swaps)
-        int cupIndex = 0;
+        int stackIndex = 0;
         for (int i = 0; i < towerItems.size(); i++) {
             Object obj = towerItems.get(i);
             
             if (obj instanceof Cup) {
                 Cup cup = (Cup) obj;
                 int cupX = 45 + (width * 10 - cup.getWidth()) / 2;
-                int cupY = 270 - (cupIndex * 30);
+                int cupY = 270 - (stackIndex * 30);
                 
                 cup.setPosition(cupX, cupY);
-                if (isVisible) {
-                    cup.makeVisible();
-                }
+                if (isVisible) cup.makeVisible();
+                stackIndex++;
                 
                 if (cup.hasLid()) {
                     Lid lid = cup.getLid();
-                    lid.setPosition(cupX, cupY - 30);
+                    int lidY = 270 - (stackIndex * 30);
+                    lid.setPosition(cupX, lidY);
                     lid.setSize(cup.getWidth());
-                    if (isVisible) {
-                        lid.makeVisible();
-                    }
+                    if (isVisible) lid.makeVisible();
+                    stackIndex++;
                 }
                 
-                cupIndex++;
             } else if (obj instanceof Lid) {
-                // Lid suelta (no en una cup)
                 Lid lid = (Lid) obj;
                 int lidX = 45 + (width * 10 - 30) / 2;
-                int lidY = 270 - (cupIndex * 30);
-                
+                int lidY = 270 - (stackIndex * 30);
                 lid.setPosition(lidX, lidY);
                 lid.setSize(30);
-                if (isVisible) {
-                    lid.makeVisible();
-                }
-                
-                cupIndex++;
+                if (isVisible) lid.makeVisible();
+                stackIndex++;
             }
         }
     }
