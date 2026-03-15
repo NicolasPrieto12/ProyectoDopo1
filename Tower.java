@@ -409,32 +409,46 @@ public class Tower {
     }
     
     private void updatePositions() {
+        // Contar slots totales (cups + lids adjuntas + lids sueltas)
+        int totalSlots = 0;
+        for (Object obj : towerItems) {
+            if (obj instanceof Cup) {
+                totalSlots++;
+                if (((Cup) obj).hasLid()) totalSlots++;
+            } else if (obj instanceof Lid) {
+                totalSlots++;
+            }
+        }
+        if (totalSlots == 0) return;
+        
+        // Altura disponible en el canvas: de y=20 (tope) a y=270 (base)
+        int canvasHeight = 250;
+        int slotHeight = Math.min(30, canvasHeight / totalSlots);
+        int baseY = 270;
+        
         int stackIndex = 0;
-        for (int i = 0; i < towerItems.size(); i++) {
-            Object obj = towerItems.get(i);
-            
+        for (Object obj : towerItems) {
             if (obj instanceof Cup) {
                 Cup cup = (Cup) obj;
                 int cupX = 45 + (width * 10 - cup.getWidth()) / 2;
-                int cupY = 270 - (stackIndex * 30);
-                
+                int cupY = baseY - (stackIndex * slotHeight);
+                cup.setSize(slotHeight, cup.getWidth());
                 cup.setPosition(cupX, cupY);
                 if (isVisible) cup.makeVisible();
                 stackIndex++;
                 
                 if (cup.hasLid()) {
                     Lid lid = cup.getLid();
-                    int lidY = 270 - (stackIndex * 30);
+                    int lidY = baseY - (stackIndex * slotHeight);
                     lid.setPosition(cupX, lidY);
                     lid.setSize(cup.getWidth());
                     if (isVisible) lid.makeVisible();
                     stackIndex++;
                 }
-                
             } else if (obj instanceof Lid) {
                 Lid lid = (Lid) obj;
                 int lidX = 45 + (width * 10 - 30) / 2;
-                int lidY = 270 - (stackIndex * 30);
+                int lidY = baseY - (stackIndex * slotHeight);
                 lid.setPosition(lidX, lidY);
                 lid.setSize(30);
                 if (isVisible) lid.makeVisible();

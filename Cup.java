@@ -26,6 +26,7 @@ public class Cup {
     private int xPos;
     private int yPos;
     private int cupWidth;
+    private int cupHeight;
     
     /**
      * Constructor de la taza.
@@ -36,9 +37,16 @@ public class Cup {
     public Cup(int number) {
         this.number = number;
         this.hasLid = false;
+        this.cupHeight = 30;
+        this.cupWidth = 40;
+        this.xPos = 70;
+        this.yPos = 15;
         this.base = new Rectangle();
         this.leftWall = new Rectangle();
+        leftWall.moveVertical(-cupHeight);
         this.rightWall = new Rectangle();
+        rightWall.moveHorizontal(cupWidth - 10);
+        rightWall.moveVertical(-cupHeight);
     }
     
     /**
@@ -48,17 +56,19 @@ public class Cup {
      * @param y posición vertical
      */
     public void setPosition(int x, int y) {
+        int dx = x - xPos;
+        int dy = y - yPos;
         this.xPos = x;
         this.yPos = y;
         
-        base.moveHorizontal(x - 70);
-        base.moveVertical(y - 15);
+        base.moveHorizontal(dx);
+        base.moveVertical(dy);
         
-        leftWall.moveHorizontal(x - 70);
-        leftWall.moveVertical(y - 45);
+        leftWall.moveHorizontal(dx);
+        leftWall.moveVertical(dy);
         
-        rightWall.moveHorizontal(x - 70 + cupWidth - 10);
-        rightWall.moveVertical(y - 45);
+        rightWall.moveHorizontal(dx);
+        rightWall.moveVertical(dy);
     }
     
     public void setColor(String color) {
@@ -68,10 +78,17 @@ public class Cup {
     }
     
     public void setSize(int height, int width) {
+        int oldHeight = this.cupHeight;
+        int oldWidth = this.cupWidth;
         this.cupWidth = width;
+        this.cupHeight = height;
         base.changeSize(10, width);
         leftWall.changeSize(height, 10);
         rightWall.changeSize(height, 10);
+        // Ajustar posición relativa de paredes al nuevo tamaño
+        leftWall.moveVertical(oldHeight - height);
+        rightWall.moveHorizontal(width - oldWidth);
+        rightWall.moveVertical(oldHeight - height);
     }
     
     /**
