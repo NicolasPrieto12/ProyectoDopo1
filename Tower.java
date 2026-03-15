@@ -5,8 +5,8 @@ import java.util.Collections;
  * Torre donde se apilan tazas con sus tapas.
  * Simula el problema del maraton de apilamiento de tazas.
  * 
- * @autores Nicolas Prieto y Sebastian Peña
- * @version 3
+ * @autores Nicoás Prieto y Sebastian Peña
+ * @version 2
  */
 public class Tower {
     private int width;
@@ -63,6 +63,7 @@ public class Tower {
                 color = "green";
             } else if (number == 3) {
                 color = "yellow";
+            
             } else {
                 String[] colors = {"blue", "magenta"};
                 color = colors[number % 2];
@@ -209,31 +210,47 @@ public class Tower {
         if (towerItems.isEmpty()) return null;
         
         Object first = towerItems.get(0);
+        int currentHeight = height();
         
+        // Si el primero es una lid, buscar una cup más pequeña para poner primero
         if (first instanceof Lid) {
             for (int i = 1; i < towerItems.size(); i++) {
                 Object obj = towerItems.get(i);
                 if (obj instanceof Cup) {
-                    return new String[][]{getIdentifier(0), getIdentifier(i)};
+                    return new String[][]{
+                        getIdentifier(0),
+                        getIdentifier(i)
+                    };
                 }
             }
         }
         
+        // Si el primero es una cup, buscar una cup más pequeña o una lid
         if (first instanceof Cup) {
             int firstNum = ((Cup)first).getNumber();
+            
+            // Buscar una cup más pequeña
             for (int i = 1; i < towerItems.size(); i++) {
                 Object obj = towerItems.get(i);
                 if (obj instanceof Cup) {
                     int n = ((Cup)obj).getNumber();
                     if (n < firstNum) {
-                        return new String[][]{getIdentifier(0), getIdentifier(i)};
+                        return new String[][]{
+                            getIdentifier(0),
+                            getIdentifier(i)
+                        };
                     }
                 }
             }
+            
+            // Si no hay cup más pequeña, buscar una lid para reducir altura
             for (int i = 1; i < towerItems.size(); i++) {
                 Object obj = towerItems.get(i);
                 if (obj instanceof Lid) {
-                    return new String[][]{getIdentifier(0), getIdentifier(i)};
+                    return new String[][]{
+                        getIdentifier(0),
+                        getIdentifier(i)
+                    };
                 }
             }
         }
@@ -277,23 +294,38 @@ public class Tower {
         return result;
     }
     
+    /**
+     * Ordena la torre colocando las tazas de mayor a menor (de abajo hacia arriba).
+     */
     public void orderTower() {
+        // Separar tazas y tapas
         ArrayList<Cup> sortedCups = new ArrayList<>(cups);
+        
+        // Ordenar tazas por número (mayor a menor)
         sortedCups.sort((c1, c2) -> Integer.compare(c2.getNumber(), c1.getNumber()));
+        
+        // Reconstruir towerItems
         towerItems.clear();
         cups.clear();
+        
         for (Cup cup : sortedCups) {
             cups.add(cup);
             towerItems.add(cup);
         }
+        
+        // Agregar tapas sueltas al final
         for (Lid lid : lids) {
             towerItems.add(lid);
         }
+        
         if (isVisible) {
             updatePositions();
         }
     }
     
+    /**
+     * Invierte el orden de los elementos en la torre.
+     */
     public void reverseTower() {
         Collections.reverse(towerItems);
         if (isVisible) {
@@ -301,6 +333,9 @@ public class Tower {
         }
     }
     
+    /**
+     * Finaliza la torre y libera recursos.
+     */
     public void exit() {
         makeInvisible();
         cups.clear();
@@ -308,13 +343,25 @@ public class Tower {
         towerItems.clear();
     }
     
+    /**
+     * Verifica si la torre está en un estado válido.
+     * Una torre es válida si todas las tazas están ordenadas correctamente
+     * (de mayor a menor desde la base).
+     * 
+     * @return true si la torre está ordenada correctamente, false en caso contrario
+     */
     public boolean ok() {
-        if (cups.isEmpty()) return true;
+        if (cups.isEmpty()) {
+            return true;
+        }
+        
+        // Verificar que las tazas estén en orden descendente
         for (int i = 0; i < cups.size() - 1; i++) {
             if (cups.get(i).getNumber() < cups.get(i + 1).getNumber()) {
                 return false;
             }
         }
+        
         return true;
     }
     
@@ -348,6 +395,7 @@ public class Tower {
     }
     
     private void updatePositions() {
+        // Posicionar basándose en towerItems (orden real después de swaps)
         int cupIndex = 0;
         for (int i = 0; i < towerItems.size(); i++) {
             Object obj = towerItems.get(i);
@@ -356,10 +404,12 @@ public class Tower {
                 Cup cup = (Cup) obj;
                 int cupX = 45 + (width * 10 - cup.getWidth()) / 2;
                 int cupY = 270 - (cupIndex * 30);
+                
                 cup.setPosition(cupX, cupY);
                 if (isVisible) {
                     cup.makeVisible();
                 }
+                
                 if (cup.hasLid()) {
                     Lid lid = cup.getLid();
                     lid.setPosition(cupX, cupY - 30);
@@ -368,16 +418,20 @@ public class Tower {
                         lid.makeVisible();
                     }
                 }
+                
                 cupIndex++;
             } else if (obj instanceof Lid) {
+                // Lid suelta (no en una cup)
                 Lid lid = (Lid) obj;
                 int lidX = 45 + (width * 10 - 30) / 2;
                 int lidY = 270 - (cupIndex * 30);
+                
                 lid.setPosition(lidX, lidY);
                 lid.setSize(30);
                 if (isVisible) {
                     lid.makeVisible();
                 }
+                
                 cupIndex++;
             }
         }
