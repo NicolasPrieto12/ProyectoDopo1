@@ -57,11 +57,11 @@ public class TowerContestCTest {
     
     /**
      * Caso de prueba 6: n=3, h=6
-     * Debe ser IMPOSSIBLE (necesitaría 3 tazas con tapas pero solo hay 3 tazas)
+     * Debe ser POSSIBLE (3 tazas con tapas = altura 6)
      */
     @Test
     public void testCase06() {
-        assertEquals("IMPOSSIBLE", TowerContest.solve(3, 6));
+        assertEquals("POSSIBLE", TowerContest.solve(3, 6));
     }
     
     /**
