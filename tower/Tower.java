@@ -269,14 +269,17 @@ public class Tower {
         if (!top.hasLid()) return;
 
         Lid lid = top.removeLid();
+        int originalCupNumber = lid.getCupNumber();
 
-        if (lid instanceof StickyLid && cups.size() > 1) {
-            // Se pega a la taza que queda en el tope
-            Cup newTop = cups.get(cups.size() - 1);
-            if (!newTop.hasLid()) {
-                newTop.putLid(lid);
-                if (isVisible) updatePositions();
-                return;
+        if (lid instanceof StickyLid) {
+            // Se pega a la primera taza disponible distinta a la original
+            for (int i = cups.size() - 1; i >= 0; i--) {
+                Cup candidate = cups.get(i);
+                if (candidate.getNumber() != originalCupNumber && !candidate.hasLid()) {
+                    candidate.putLid(lid);
+                    if (isVisible) updatePositions();
+                    return;
+                }
             }
         }
 
@@ -337,6 +340,11 @@ public class Tower {
         int i2 = findIndex(o2);
         if (i1 == -1 || i2 == -1) return;
         Collections.swap(towerItems, i1, i2);
+        // Sincronizar lista cups con el nuevo orden de towerItems
+        cups.clear();
+        for (Object obj : towerItems) {
+            if (obj instanceof Cup) cups.add((Cup) obj);
+        }
         if (isVisible) updatePositions();
     }
 

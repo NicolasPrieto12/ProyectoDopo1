@@ -4,14 +4,14 @@ import java.awt.Polygon;
 
 /**
  * Triángulo que puede manipularse y dibujarse en el canvas.
- * Extiende Shape aprovechando herencia para reutilizar estado común.
+ * Extiende ShapeBase aprovechando herencia para reutilizar estado común.
  *
  * @author Michael Kolling and David J. Barnes (Modified)
  * @author Nicolás Prieto
  * @author Sebastian Peña
  * @version 4.0
  */
-public class Triangle extends Shape {
+public class Triangle extends ShapeBase {
 
     public static final int VERTICES = 3;
 

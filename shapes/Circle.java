@@ -4,14 +4,14 @@ import java.awt.geom.Ellipse2D;
 
 /**
  * Círculo que puede manipularse y dibujarse en el canvas.
- * Extiende Shape aprovechando herencia para reutilizar estado común.
+ * Extiende ShapeBase aprovechando herencia para reutilizar estado común.
  *
  * @author Michael Kolling and David J. Barnes (Modified)
  * @author Nicolás Prieto
  * @author Sebastian Peña
  * @version 4.0
  */
-public class Circle extends Shape {
+public class Circle extends ShapeBase {
 
     public static final double PI = 3.1416;
 

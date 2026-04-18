@@ -2,14 +2,14 @@ package shapes;
 
 /**
  * Rectángulo que puede manipularse y dibujarse en el canvas.
- * Extiende Shape aprovechando herencia para reutilizar estado común.
+ * Extiende ShapeBase aprovechando herencia para reutilizar estado común.
  *
  * @author Michael Kolling and David J. Barnes (Modified)
  * @author Nicolás Prieto
  * @author Sebastian Peña
  * @version 4.0
  */
-public class Rectangle extends Shape {
+public class Rectangle extends ShapeBase {
 
     public static final int EDGES = 4;
 
@@ -79,7 +79,7 @@ public class Rectangle extends Shape {
     }
 
     /**
-     * Retorna el ancho actual del rectángulo.
+     * Retorna el ancho actual.
      *
      * @return ancho en píxeles
      */
@@ -88,7 +88,7 @@ public class Rectangle extends Shape {
     }
 
     /**
-     * Retorna la altura actual del rectángulo.
+     * Retorna la altura actual.
      *
      * @return altura en píxeles
      */

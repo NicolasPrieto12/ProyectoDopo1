@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author Bruce Quig
  * @author Michael Kolling
- * @version 1.6 (shapes)
+ * @version 4.0
  */
 public class Canvas {
 
@@ -38,14 +38,6 @@ public class Canvas {
     private List<Object> objects;
     private HashMap<Object, ShapeDescription> shapes;
 
-    /**
-     * Crea un Canvas con título, dimensiones y color de fondo dados.
-     *
-     * @param title   título de la ventana
-     * @param width   ancho en píxeles
-     * @param height  alto en píxeles
-     * @param bgColour color de fondo
-     */
     private Canvas(String title, int width, int height, Color bgColour) {
         frame = new JFrame();
         canvas = new CanvasPane();
@@ -61,7 +53,7 @@ public class Canvas {
     /**
      * Controla la visibilidad del canvas.
      *
-     * @param visible true para mostrar, false para ocultar
+     * @param visible true para mostrar
      */
     public void setVisible(boolean visible) {
         if (graphic == null) {
@@ -80,9 +72,9 @@ public class Canvas {
      *
      * @param referenceObject objeto de referencia para identificar la figura
      * @param color           color de la figura
-     * @param shape           figura a dibujar
+     * @param shape           figura AWT a dibujar
      */
-    public void draw(Object referenceObject, String color, Shape shape) {
+    public void draw(Object referenceObject, String color, java.awt.Shape shape) {
         objects.remove(referenceObject);
         objects.add(referenceObject);
         shapes.put(referenceObject, new ShapeDescription(shape, color));
@@ -106,14 +98,17 @@ public class Canvas {
      * @param colorString nombre del color
      */
     public void setForegroundColor(String colorString) {
-        if (colorString.equals("red"))          graphic.setColor(Color.red);
-        else if (colorString.equals("black"))   graphic.setColor(Color.black);
-        else if (colorString.equals("blue"))    graphic.setColor(Color.blue);
-        else if (colorString.equals("yellow"))  graphic.setColor(Color.yellow);
-        else if (colorString.equals("green"))   graphic.setColor(Color.green);
-        else if (colorString.equals("magenta")) graphic.setColor(Color.magenta);
-        else if (colorString.equals("white"))   graphic.setColor(Color.white);
-        else                                    graphic.setColor(Color.black);
+        if      (colorString.equals("red"))      graphic.setColor(Color.red);
+        else if (colorString.equals("black"))    graphic.setColor(Color.black);
+        else if (colorString.equals("blue"))     graphic.setColor(Color.blue);
+        else if (colorString.equals("yellow"))   graphic.setColor(Color.yellow);
+        else if (colorString.equals("green"))    graphic.setColor(Color.green);
+        else if (colorString.equals("magenta"))  graphic.setColor(Color.magenta);
+        else if (colorString.equals("white"))    graphic.setColor(Color.white);
+        else if (colorString.equals("orange"))   graphic.setColor(Color.orange);
+        else if (colorString.equals("cyan"))     graphic.setColor(Color.cyan);
+        else if (colorString.equals("pink"))     graphic.setColor(Color.pink);
+        else                                     graphic.setColor(Color.black);
     }
 
     /**
@@ -130,14 +125,14 @@ public class Canvas {
     }
 
     private void redraw() {
-        erase();
+        eraseCanvas();
         for (Iterator i = objects.iterator(); i.hasNext();) {
             shapes.get(i.next()).draw(graphic);
         }
         canvas.repaint();
     }
 
-    private void erase() {
+    private void eraseCanvas() {
         Color original = graphic.getColor();
         graphic.setColor(backgroundColour);
         Dimension size = canvas.getSize();
