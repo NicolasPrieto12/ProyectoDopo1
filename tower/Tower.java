@@ -1,6 +1,5 @@
 package tower;
 
-import shapes.Rectangle;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,8 +25,8 @@ public class Tower {
     private ArrayList<Lid> lids;
     private ArrayList<Object> towerItems;
     private boolean isVisible;
-    private Rectangle axisX;
-    private ArrayList<Rectangle> axisY;
+    private shapes.Rectangle axisX;
+    private ArrayList<shapes.Rectangle> axisY;
 
     /**
      * Crea una torre con ancho y altura máxima dados.
@@ -60,13 +59,13 @@ public class Tower {
     }
 
     private void createAxis() {
-        axisX = new Rectangle();
+        axisX = new shapes.Rectangle();
         axisX.changeColor("black");
         axisX.changeSize(2, 300);
         axisX.moveHorizontal(-60);
         axisX.moveVertical(265);
         for (int i = 0; i <= 9; i++) {
-            Rectangle mark = new Rectangle();
+            shapes.Rectangle mark = new shapes.Rectangle();
             mark.changeColor("black");
             mark.changeSize(2, 15);
             mark.moveHorizontal(-60);
@@ -447,7 +446,7 @@ public class Tower {
     public void makeVisible() {
         isVisible = true;
         axisX.makeVisible();
-        for (Rectangle mark : axisY) mark.makeVisible();
+        for (shapes.Rectangle mark : axisY) mark.makeVisible();
         updatePositions();
     }
 
@@ -457,7 +456,7 @@ public class Tower {
     public void makeInvisible() {
         isVisible = false;
         axisX.makeInvisible();
-        for (Rectangle mark : axisY) mark.makeInvisible();
+        for (shapes.Rectangle mark : axisY) mark.makeInvisible();
         for (Cup c : cups) {
             c.makeInvisible();
             if (c.hasLid()) c.getLid().makeInvisible();

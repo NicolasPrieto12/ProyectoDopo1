@@ -1,7 +1,5 @@
 package tower;
 
-import shapes.Rectangle;
-
 /**
  * Representa una tapa normal para una taza dentro de la torre.
  * Es la clase base para todos los tipos de tapa.
@@ -13,7 +11,7 @@ import shapes.Rectangle;
 public class Lid {
 
     private int cupNumber;
-    private Rectangle visual;
+    private shapes.Rectangle visual;
     private int xPos;
     private int yPos;
 
@@ -24,7 +22,7 @@ public class Lid {
      */
     public Lid(int cupNumber) {
         this.cupNumber = cupNumber;
-        this.visual = new Rectangle();
+        this.visual = new shapes.Rectangle();
         this.xPos = 70;
         this.yPos = 15;
     }

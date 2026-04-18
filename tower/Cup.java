@@ -1,7 +1,5 @@
 package tower;
 
-import shapes.Rectangle;
-
 /**
  * Representa una taza normal que puede apilarse dentro de la torre.
  * Es la clase base para todos los tipos de taza.
@@ -13,9 +11,9 @@ import shapes.Rectangle;
 public class Cup {
 
     private int number;
-    private Rectangle base;
-    private Rectangle leftWall;
-    private Rectangle rightWall;
+    private shapes.Rectangle base;
+    private shapes.Rectangle leftWall;
+    private shapes.Rectangle rightWall;
     private boolean hasLid;
     private Lid lid;
     private int xPos;
@@ -35,10 +33,10 @@ public class Cup {
         this.cupWidth = 40;
         this.xPos = 70;
         this.yPos = 15;
-        this.base = new Rectangle();
-        this.leftWall = new Rectangle();
+        this.base = new shapes.Rectangle();
+        this.leftWall = new shapes.Rectangle();
         leftWall.moveVertical(-cupHeight);
-        this.rightWall = new Rectangle();
+        this.rightWall = new shapes.Rectangle();
         rightWall.moveHorizontal(cupWidth - 10);
         rightWall.moveVertical(-cupHeight);
     }
