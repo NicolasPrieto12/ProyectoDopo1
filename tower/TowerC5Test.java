@@ -149,10 +149,9 @@ public class TowerC5Test {
         Tower t = new Tower(9, 1000);
         t.pushCup(3);
         t.pushLid(3);
-        // Poner lid al frente manualmente via swap
         t.swap(new String[]{"cup", "3"}, new String[]{"lid", "3"});
         String[][] suggestion = t.swapToReduce();
-        assertNotNull(suggestion);
+        assertTrue(suggestion.length > 0);
     }
 
     @Test

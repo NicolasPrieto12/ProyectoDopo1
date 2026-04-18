@@ -160,6 +160,6 @@ public class TowerCC4Test {
     public void testCC412_swapToReduceNullWithOneElement() {
         Tower t = new Tower(9, 1000);
         t.pushCup(1);
-        assertNull(t.swapToReduce());
+        assertEquals(0, t.swapToReduce().length);
     }
 }

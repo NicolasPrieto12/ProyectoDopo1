@@ -1,9 +1,15 @@
 package shapes;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
-import java.util.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Canvas es una clase que permite dibujar figuras geométricas en una ventana.
@@ -35,7 +41,7 @@ public class Canvas {
     private Graphics2D graphic;
     private Color backgroundColour;
     private Image canvasImage;
-    private List<Object> objects;
+    private ArrayList<Object> objects;
     private HashMap<Object, ShapeDescription> shapes;
 
     private Canvas(String title, int width, int height, Color bgColour) {
@@ -98,17 +104,29 @@ public class Canvas {
      * @param colorString nombre del color
      */
     public void setForegroundColor(String colorString) {
-        if      (colorString.equals("red"))      graphic.setColor(Color.red);
-        else if (colorString.equals("black"))    graphic.setColor(Color.black);
-        else if (colorString.equals("blue"))     graphic.setColor(Color.blue);
-        else if (colorString.equals("yellow"))   graphic.setColor(Color.yellow);
-        else if (colorString.equals("green"))    graphic.setColor(Color.green);
-        else if (colorString.equals("magenta"))  graphic.setColor(Color.magenta);
-        else if (colorString.equals("white"))    graphic.setColor(Color.white);
-        else if (colorString.equals("orange"))   graphic.setColor(Color.orange);
-        else if (colorString.equals("cyan"))     graphic.setColor(Color.cyan);
-        else if (colorString.equals("pink"))     graphic.setColor(Color.pink);
-        else                                     graphic.setColor(Color.black);
+        if ("red".equals(colorString)) {
+            graphic.setColor(Color.red);
+        } else if ("black".equals(colorString)) {
+            graphic.setColor(Color.black);
+        } else if ("blue".equals(colorString)) {
+            graphic.setColor(Color.blue);
+        } else if ("yellow".equals(colorString)) {
+            graphic.setColor(Color.yellow);
+        } else if ("green".equals(colorString)) {
+            graphic.setColor(Color.green);
+        } else if ("magenta".equals(colorString)) {
+            graphic.setColor(Color.magenta);
+        } else if ("white".equals(colorString)) {
+            graphic.setColor(Color.white);
+        } else if ("orange".equals(colorString)) {
+            graphic.setColor(Color.orange);
+        } else if ("cyan".equals(colorString)) {
+            graphic.setColor(Color.cyan);
+        } else if ("pink".equals(colorString)) {
+            graphic.setColor(Color.pink);
+        } else {
+            graphic.setColor(Color.black);
+        }
     }
 
     /**
@@ -119,8 +137,8 @@ public class Canvas {
     public void wait(int milliseconds) {
         try {
             Thread.sleep(milliseconds);
-        } catch (Exception e) {
-            // ignorado intencionalmente
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 

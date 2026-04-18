@@ -144,35 +144,23 @@ public class TowerC2Test {
     @Test
     public void shouldSuggestASwapThatReducesHeightWhenPossible() {
         Tower t = new Tower(4);
-
-        // Creamos una configuración donde cambiar el orden puede afectar height()
-        
         t.pushLid(1);
         t.pushLid(4);
-
         int h1 = t.height();
-
         String[][] suggestion = t.swapToReduce();
-
-        
-        
-        assertNotNull("Debería sugerir un swap cuando sea posible reducir altura", suggestion);
+        assertTrue("Debería sugerir un swap cuando sea posible reducir altura", suggestion.length > 0);
         assertEquals(2, suggestion.length);
         assertEquals(2, suggestion[0].length);
         assertEquals(2, suggestion[1].length);
-
-        
         t.swap(suggestion[0], suggestion[1]);
         int h2 = t.height();
-
         assertTrue("Luego de aplicar el swap sugerido, la altura debería disminuir", h2 < h1);
     }
 
     @Test
     public void shouldReturnNullWhenNoSwapReducesHeight() {
-        Tower t = new Tower(1); 
-
+        Tower t = new Tower(1);
         String[][] suggestion = t.swapToReduce();
-        assertNull("Con 1 solo objeto, no debería haber swap que reduzca altura", suggestion);
+        assertTrue("Con 1 solo objeto, no debería haber swap que reduzca altura", suggestion.length == 0);
     }
 }
