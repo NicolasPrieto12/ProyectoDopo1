@@ -1,4 +1,4 @@
-# Stacking Items - Proyecto DOPO/POOB
+# Stacking Items - Proyecto DOPO
 
 ## Descripción
 
@@ -19,34 +19,6 @@ Desarrollo Orientado por Objetos (DOPO/POOB) — 2026-1
 
 ---
 
-## Estructura del Proyecto
-
-```
-ProyectoDopo1/
-├── shapes/                  # Paquete de figuras geométricas
-│   ├── ShapeBase.java       # Clase abstracta base
-│   ├── Canvas.java          # Ventana gráfica (singleton)
-│   ├── Rectangle.java
-│   ├── Circle.java
-│   └── Triangle.java
-├── tower/                   # Paquete principal del simulador
-│   ├── Cup.java             # Taza normal
-│   ├── OpenerCup.java       # Taza que elimina tapas al entrar
-│   ├── HierarchicalCup.java # Taza que desplaza menores
-│   ├── Lid.java             # Tapa normal
-│   ├── FearfulLid.java      # Tapa miedosa
-│   ├── CrazyLid.java        # Tapa que va a la base
-│   ├── StickyLid.java       # Tapa pegajosa (tipo propuesto por el equipo)
-│   ├── Tower.java           # Torre principal
-│   ├── TowerC4Test.java     # Pruebas unitarias ciclo 4
-│   ├── TowerCC4Test.java    # Pruebas comunes ciclo 4
-│   └── TowerAtest.java      # Pruebas de aceptación
-├── TowerContest.java        # Solver del problema de maratón
-└── TowerC2Test.java         # Pruebas ciclo 2
-```
-
----
-
 ## Tipos de Elementos
 
 ### Tazas
@@ -64,54 +36,7 @@ ProyectoDopo1/
 | `normal` | Negro | Comportamiento estándar |
 | `fearful` | Rosa | No entra si su taza no está en la torre; no sale si está tapando su taza |
 | `crazy` | Verde | Se ubica en la **base** de la torre en lugar de tapar su taza |
-| `sticky` ⭐ | Magenta | Al ser removida, se adhiere a la siguiente taza disponible |
-
-> ⭐ Tipo propuesto por el equipo
-
----
-
-## Cómo Usar (BlueJ)
-
-### Crear una torre
-```java
-Tower t = new Tower(4);       // Torre con 4 tazas normales
-Tower t = new Tower(9, 100);  // Torre con ancho 9 y altura máxima 100
-```
-
-### Agregar tazas
-```java
-t.pushCup(3);                     // Taza normal número 3
-t.pushCup("opener", 5);           // Taza opener número 5
-t.pushCup("hierarchical", 3);     // Taza hierarchical número 3
-```
-
-### Agregar tapas
-```java
-t.pushLid(2);                     // Tapa normal para taza 2
-t.pushLid("fearful", 2);          // Tapa fearful para taza 2
-t.pushLid("crazy", 1);            // Tapa crazy para taza 1
-t.pushLid("sticky", 1);           // Tapa sticky para taza 1
-```
-
-### Operaciones
-```java
-t.makeVisible();                                              // Mostrar torre
-t.cover();                                                    // Cubrir tazas con tapas sueltas
-t.orderTower();                                               // Ordenar de mayor a menor
-t.reverseTower();                                             // Invertir orden
-t.swap(new String[]{"cup","4"}, new String[]{"lid","2"});    // Intercambiar elementos
-t.height();                                                   // Altura de la torre
-t.lidedCups();                                                // Números de tazas tapadas
-t.stackingItems();                                            // Todos los elementos
-t.swapToReduce();                                             // Sugerir swap que reduce altura
-t.ok();                                                       // Verificar si está ordenada
-```
-
-### TowerContest
-```java
-TowerContest.solve(3, 4);     // Retorna "POSSIBLE" o "IMPOSSIBLE"
-TowerContest.simulate(3, 4);  // Visualiza la solución gráficamente
-```
+| `sticky` (hecha por nosotros) | Magenta | Al ser removida, se adhiere a la siguiente taza disponible |
 
 ---
 
