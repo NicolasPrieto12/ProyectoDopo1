@@ -69,7 +69,30 @@ Cobertura de código de dominio: **69.7%**
 
 ### Resultado Final — Ciclo 5
 
-> *Se actualizará al completar el ciclo 5*
+Pruebas ejecutadas: **52/52 ✅**  
+Cobertura de código de dominio: **91.1%**
+
+![Reporte JaCoCo Final](docs/jacoco-final.png)
+
+| Clase | Inicial | Final |
+|-------|---------|-------|
+| Tower | 69.6% | 88.9% |
+| Cup | 71.8% | 100% |
+| Lid | 46.8% | 100% |
+| OpenerCup | 100% | 100% |
+| HierarchicalCup | 100% | 100% |
+| FearfulLid | 77.8% | 100% |
+| CrazyLid | 77.8% | 100% |
+| StickyLid | 77.8% | 100% |
+| TowerContest | — | 93.3% |
+| **Total dominio** | **69.7%** | **91.1%** |
+
+**Decisiones tomadas para mejorar la cobertura:**
+- Se agregaron pruebas para `Lid.setPosition`, `setSize`, `setColor`, `makeVisible` y `makeInvisible` → subió de 46.8% a 100%
+- Se agregaron pruebas para `Cup.getXPos`, `getYPos`, `getWidth`, `makeVisible` y `makeInvisible` → subió de 71.8% a 100%
+- Se agregaron pruebas para `Tower.reverseTower`, `removeLid`, `cover` con múltiples tapas, `popCup` vacía y `popLid` sin tapa
+- Se agregaron pruebas para `TowerContest.simulate` con casos posible, imposible y altura grande
+- Meta superada: **91.1% > 75%** ✅
 
 ---
 
@@ -99,6 +122,31 @@ Cobertura de código de dominio: **69.7%**
 ---
 
 ## Retrospectivas
+
+### Ciclo 5
+
+**1. ¿Qué hicimos bien?**  
+Logramos superar ampliamente la meta de cobertura (91.1% vs 75% requerido). La migración a IntelliJ fue ordenada gracias a la estructura de paquetes ya definida.
+
+**2. ¿Qué no hicimos bien?**  
+No habíamos cubierto suficientemente `Lid` y `Cup` en ciclos anteriores, lo que requería trabajo adicional en el cierre.
+
+**3. ¿Qué debemos mejorar?**  
+Escribir pruebas en paralelo con el código desde el inicio, no al final.
+
+**4. ¿Qué aprendimos?**  
+El uso de JaCoCo para identificar exactamente qué líneas no están cubiertas es muy valioso. PMD ayuda a mantener el código limpio y consistente.
+
+**5. ¿Qué obstáculos encontramos?**  
+JaCoCo 0.8.12 CLI no soporta Java 24 (class version 68), tuvimos que compilar con target Java 11 para generar el reporte.
+
+**6. ¿Cómo resolvimos los obstáculos?**  
+Usando el flag `--release 11` en javac para generar bytecode compatible con JaCoCo.
+
+**7. ¿Qué tan satisfechos estamos?**  
+Muy satisfechos. El proyecto quedó bien estructurado, con alta cobertura y listo para IntelliJ.
+
+---
 
 ### Ciclo 4
 
