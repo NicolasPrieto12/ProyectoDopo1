@@ -123,10 +123,8 @@ Violaciones restantes: **4** (todas de baja prioridad)
 | Archivo | Violaciones | Regla |
 |---------|-------------|-------|
 | Canvas.java | 2 | ClassWithOnlyPrivateConstructorsShouldBeFinal (clases internas) |
-| Tower.java | 0 | ✅ Todas resueltas |
-| TowerContest.java | 0 | ✅ Todas resueltas |
-
-**Meta: cumplimiento de todas las reglas de prioridad alta ✅**
+| Tower.java | 0 | Todas resueltas |
+| TowerContest.java | 0 | Todas resueltas |
 
 ---
 
