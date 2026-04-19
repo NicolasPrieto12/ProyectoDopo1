@@ -100,11 +100,33 @@ Cobertura de código de dominio: **91.1%**
 
 ### Resultado Inicial — Ciclo 4
 
-> *Se ejecutará al iniciar el ciclo 5 en IntelliJ*
+Violaciones encontradas: **77**
+
+| Archivo | Violaciones | Reglas principales |
+|---------|-------------|-------------------|
+| Tower.java | 55 | ControlStatementBraces, LiteralsFirstInComparisons, ReturnEmptyCollectionRatherThanNull |
+| TowerContest.java | 8 | UseUtilityClass, NonThreadSafeSingleton, ControlStatementBraces |
+| Canvas.java | 14 | UnnecessaryImport, ControlStatementBraces, EmptyCatchBlock |
+
+**Decisiones tomadas:**
+- Se agregaron llaves `{}` a todos los `if/for/else` de una sola línea
+- Se invirtieron comparaciones: `"valor".equals(variable)` en lugar de `variable.equals("valor")`
+- `swapToReduce()` retorna arreglo vacío en lugar de `null`
+- `TowerContest` se hizo `final` con constructor privado
+- `currentTower` se hizo `volatile`
+- `Canvas` usa imports específicos y maneja `InterruptedException` correctamente
 
 ### Resultado Final — Ciclo 5
 
-> *Se actualizará al completar el ciclo 5*
+Violaciones restantes: **4** (todas de baja prioridad)
+
+| Archivo | Violaciones | Regla |
+|---------|-------------|-------|
+| Canvas.java | 2 | ClassWithOnlyPrivateConstructorsShouldBeFinal (clases internas) |
+| Tower.java | 0 | ✅ Todas resueltas |
+| TowerContest.java | 0 | ✅ Todas resueltas |
+
+**Meta: cumplimiento de todas las reglas de prioridad alta ✅**
 
 ---
 
@@ -116,6 +138,7 @@ Cobertura de código de dominio: **91.1%**
 | `TowerC4Test` | Unitarias ciclo 4 | 14 pruebas |
 | `TowerCC4Test` | Comunes ciclo 4 | 12 pruebas |
 | `TowerAtest` | Aceptación ciclo 4 | 2 pruebas |
+| `TowerC5Test` | Unitarias ciclo 5 | 26 pruebas |
 | `TowerContestTest` | Unitarias TowerContest | 9 pruebas |
 | `TowerContestCTest` | Comunes TowerContest | 12 pruebas |
 
@@ -126,7 +149,7 @@ Cobertura de código de dominio: **91.1%**
 ### Ciclo 5
 
 **1. ¿Qué hicimos bien?**  
-Logramos superar ampliamente la meta de cobertura (91.1% vs 75% requerido). La migración a IntelliJ fue ordenada gracias a la estructura de paquetes ya definida.
+Logramos superar ampliamente la meta de cobertura (91.1% vs 75% requerido). El análisis PMD redujo las violaciones de 77 a 4.
 
 **2. ¿Qué no hicimos bien?**  
 No habíamos cubierto suficientemente `Lid` y `Cup` en ciclos anteriores, lo que requería trabajo adicional en el cierre.
@@ -208,3 +231,4 @@ Diseñar el diagrama de paquetes completo desde el inicio y proponer el nuevo ti
 - BlueJ 5.x (ciclos 1-4) / IntelliJ IDEA (ciclo 5)
 - JUnit 4.12
 - JaCoCo 0.8.12 (análisis de cobertura)
+- PMD 7.0.0 (análisis estático)
