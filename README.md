@@ -9,10 +9,10 @@ Permite apilar tazas y tapas de diferentes tipos en una torre, visualizando el r
 
 ## Autores
 
-| Nombre | Rol |
-|--------|-----|
-| **Nicolás Prieto** | Desarrollador |
-| **Sebastian Peña** | Desarrollador |
+| Nombre |
+|--------|
+| **Nicolás Prieto** |
+| **Sebastian Peña** |
 
 Escuela Colombiana de Ingeniería Julio Garavito  
 Desarrollo Orientado por Objetos (DOPO/POOB) — 2026-1
@@ -44,7 +44,7 @@ Desarrollo Orientado por Objetos (DOPO/POOB) — 2026-1
 
 ### Resultado Inicial — Ciclo 4
 
-Pruebas ejecutadas: **26/26 ✅**  
+Pruebas ejecutadas: **26/26**  
 Cobertura de código de dominio: **69.7%**
 
 ![Reporte JaCoCo Inicial](docs/jacoco-initial.png)
@@ -69,7 +69,7 @@ Cobertura de código de dominio: **69.7%**
 
 ### Resultado Final — Ciclo 5
 
-Pruebas ejecutadas: **52/52 ✅**  
+Pruebas ejecutadas: **52/52**  
 Cobertura de código de dominio: **91.1%**
 
 ![Reporte JaCoCo Final](docs/jacoco-final.png)
@@ -92,7 +92,7 @@ Cobertura de código de dominio: **91.1%**
 - Se agregaron pruebas para `Cup.getXPos`, `getYPos`, `getWidth`, `makeVisible` y `makeInvisible` → subió de 71.8% a 100%
 - Se agregaron pruebas para `Tower.reverseTower`, `removeLid`, `cover` con múltiples tapas, `popCup` vacía y `popLid` sin tapa
 - Se agregaron pruebas para `TowerContest.simulate` con casos posible, imposible y altura grande
-- Meta superada: **91.1% > 75%** ✅
+- Meta superada: **91.1% > 75%**
 
 ---
 
