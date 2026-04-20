@@ -1,0 +1,65 @@
+RETROSPECTIVA CICLO 4 - STACKING ITEMS
+Autores: Nicolás Prieto y Sebastian Peña
+Fecha: Marzo 2026
+========================================
+
+CICLO 4
+
+1. ¿Qué hicimos bien en este ciclo?
+   Logramos estructurar el proyecto en dos paquetes (shapes y tower) de forma limpia,
+   aplicando herencia correctamente en el paquete shapes con la clase abstracta Shape.
+   Los nuevos tipos de taza y tapa quedaron bien diferenciados visualmente y con
+   comportamientos claramente definidos.
+
+2. ¿Qué no hicimos bien?
+   Al principio no teníamos claro cómo manejar la lógica de HierarchicalCup dentro
+   de Tower sin romper la encapsulación. Tardamos en decidir si el comportamiento
+   especial iba en la subclase o en Tower.
+
+3. ¿Qué debemos mejorar?
+   Mejorar la planificación del diseño antes de codificar. El diagrama de clases
+   debería estar completo antes de escribir la primera línea de código.
+
+4. ¿Qué aprendimos?
+   Aprendimos a usar herencia de forma efectiva para reutilizar código en shapes,
+   y a diseñar subclases con comportamientos polimórficos. También aprendimos
+   la importancia del diagrama de paquetes para visualizar dependencias.
+
+5. ¿Qué obstáculos encontramos?
+   La integración entre los paquetes shapes y tower requirió ajustar los imports
+   y la estructura de carpetas para que BlueJ los reconociera correctamente.
+   También fue complejo implementar HierarchicalCup sin violar el principio
+   de responsabilidad única.
+
+6. ¿Cómo resolvimos los obstáculos?
+   Revisamos la documentación de BlueJ sobre paquetes y ajustamos el package.bluej.
+   Para HierarchicalCup decidimos que Tower maneja la lógica de inserción y
+   la subclase solo guarda el estado (atBottom).
+
+7. ¿Qué tan satisfechos estamos con el resultado?
+   Bastante satisfechos. El simulador ahora tiene comportamientos más ricos y
+   visualmente distinguibles. Las pruebas de aceptación demuestran claramente
+   las diferencias entre tipos.
+
+8. ¿Qué haríamos diferente si empezáramos de nuevo?
+   Diseñaríamos el diagrama de paquetes y clases completo desde el inicio del ciclo,
+   y definiríamos las interfaces de cada tipo antes de implementar. También
+   habríamos propuesto el nuevo tipo (StickyLid) desde el diseño, no al final.
+
+========================================
+RETROSPECTIVA CICLO 3 (resumen)
+
+1. Implementamos TowerContest con solve() y simulate() correctamente.
+2. Las pruebas de TowerContestTest cubrieron todos los casos del problema de maratón.
+3. Aprendimos a separar la lógica de resolución de la lógica de simulación visual.
+4. Dificultad: calcular correctamente los anchos para que la simulación se vea bien.
+5. Mejora: documentar mejor los métodos desde el inicio.
+
+========================================
+RETROSPECTIVA CICLO 2 (resumen)
+
+1. Implementamos swap, cover y swapToReduce exitosamente.
+2. La gestión de towerItems como lista unificada simplificó mucho el código.
+3. Aprendimos a manejar listas de objetos heterogéneos con instanceof.
+4. Dificultad: el posicionamiento visual con updatePositions fue complejo de depurar.
+5. Mejora: escribir las pruebas antes del código (TDD).
